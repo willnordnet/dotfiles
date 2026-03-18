@@ -1,0 +1,264 @@
+{
+  "enabledPlugins" : {
+    "backstage-mcp@nordnet-claude-plugins" : true
+  },
+  "env" : {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS" : "1"
+  },
+  "hooks" : {
+    "Notification" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ],
+        "matcher" : "*"
+      }
+    ],
+    "PermissionRequest" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "timeout" : 86400,
+            "type" : "command"
+          }
+        ],
+        "matcher" : "*"
+      }
+    ],
+    "PostToolUse" : [
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ],
+        "matcher" : "*"
+      }
+    ],
+    "PostToolUseFailure" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : "Bash"
+      }
+    ],
+    "PreCompact" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ],
+        "matcher" : "auto"
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ],
+        "matcher" : "manual"
+      }
+    ],
+    "PreToolUse" : [
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ],
+        "matcher" : "*"
+      }
+    ],
+    "SessionEnd" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart" : [
+      {
+        "hooks" : [
+          {
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ]
+      }
+    ],
+    "Stop" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStart" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      }
+    ],
+    "SubagentStop" : [
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit" : [
+      {
+        "hooks" : [
+          {
+            "async" : true,
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/peon.sh",
+            "timeout" : 10,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "\/Users\/wilgao\/.claude\/hooks\/peon-ping\/scripts\/hook-handle-use.sh",
+            "timeout" : 5,
+            "type" : "command"
+          }
+        ],
+        "matcher" : ""
+      },
+      {
+        "hooks" : [
+          {
+            "command" : "python3 ~\/.claude\/hooks\/claude-island-state.py",
+            "type" : "command"
+          }
+        ]
+      }
+    ]
+  },
+  "model" : "claude-opus-4-6[1m]",
+  "permissions" : {
+    "allow" : [
+      "Bash(npm create:*)",
+      "Bash(npx create-vite@latest . --template react-ts)",
+      "Bash(npm install)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run deploy:*)",
+      "Bash(npx wrangler pages deploy:*)",
+      "Bash(npx wrangler pages project create:*)",
+      "WebSearch",
+      "WebFetch(domain:pixabay.com)",
+      "Bash(gh workflow:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(node -e:*)",
+      "Bash(ls:*)"
+    ],
+    "defaultMode" : "plan"
+  },
+  "statusLine" : {
+    "command" : "bash \/Users\/wilgao\/.claude\/statusline-command.sh",
+    "type" : "command"
+  }
+}
