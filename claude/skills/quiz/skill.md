@@ -19,7 +19,7 @@ Start by asking the user to choose a game mode and question count using `AskUser
 - **Custom Scope** -- Quiz focused on a specific topic, package, or file path. After selection, ask what to focus on.
 
 **Question 2 -- Question count:**
-- **5 (Recommended)** -- Quick session
+- **5** -- Quick session
 - **3** -- Short session
 - **10** -- Deep dive
 
@@ -38,7 +38,9 @@ Do all of this before asking the first question:
 2. Run `gh pr diff <number>` to get the full diff
 3. Read the changed files (both the diff and the current state) to understand what was modified and why
 4. Read `CLAUDE.md` and `README.md` for project context so you can frame questions well
-5. Build questions focused on the PR changes: what was changed, why it matters, what the before/after behavior is, and how the changes interact with the rest of the codebase
+5. Read any test files included in the PR to understand test coverage
+6. Read surrounding code not in the PR to understand what edge cases or interactions might be missed
+7. Build questions across these categories: factual (what changed), design (why this approach), critique (spot potential issues), and test coverage (what's tested, what's not)
 
 ### Full Repo / Custom Scope mode
 
@@ -55,21 +57,71 @@ For each question (1 through N):
 
 1. **Generate a question** from the code you explored. Mix these types:
 
-   **Full Repo / Custom Scope question types:**
-   - "What does this method/class do?" -- use `preview` to show a code snippet
-   - "Which class/file is responsible for X?"
-   - "What pattern does this code use?" -- use `preview` to show the pattern
-   - "What would happen if X condition changed?"
-   - "How does data flow from A to B?"
-   - "What dependency/config does X rely on?"
+   **Full Repo / Custom Scope question types -- mix across categories:**
 
-   **PR mode question types:**
+   *Business logic:*
+   - "What business rule does this method enforce?" -- use `preview` to show the logic, ask what it guarantees
+   - "What happens when X condition is met?" -- show a conditional branch, test understanding of the domain outcome
+   - "Which component owns the decision for X?" -- e.g., pricing, validation, eligibility
+   - "What is the business meaning of this state/enum/flag?" -- show code, ask what domain concept it represents
+   - "What would break for the end user if this method returned a different value?"
+
+   *Dependencies and integration:*
+   - "What external service/system does X depend on?" -- e.g., database, API, message queue, cache
+   - "What happens if dependency X is unavailable?" -- test understanding of fallback/retry/error behavior
+   - "Which config property controls X behavior?" -- show code that reads config, ask what it configures
+   - "What is the order of initialization for these components?" -- test understanding of startup/lifecycle
+   - "Which module would be affected if you changed the contract of X?" -- test understanding of coupling
+
+   *Design patterns and architecture:*
+   - "What design pattern does this code use?" -- use `preview` to show the pattern, present plausible alternatives
+   - "Why is this abstraction structured this way?" -- e.g., why an interface here, why a strategy pattern
+   - "Which layer of the architecture does this class belong to?" -- e.g., controller, service, repository, domain
+   - "What principle does this separation of concerns follow?" -- e.g., SRP, dependency inversion, hexagonal
+   - "How would you extend this to support a new variant of X?" -- test understanding of extension points
+
+   *Data flow and state:*
+   - "How does data flow from A to B?" -- trace a request or event through the system
+   - "What transformation happens to X between input and output?" -- show entry and exit points
+   - "Where is this state persisted and how is it accessed?" -- e.g., DB, cache, in-memory
+   - "What triggers this process/job/handler?" -- test understanding of event sources or schedules
+
+   *Error handling and edge cases:*
+   - "What happens when this input is null/empty/invalid?" -- use `preview` to show the code path
+   - "Which exception is thrown and where is it caught?" -- trace error propagation
+   - "What edge case does this guard clause protect against?" -- show defensive code, ask what it prevents
+   - "What would happen if this race condition occurred?" -- for concurrent code
+
+   *Testing and observability:*
+   - "What is this test actually verifying?" -- use `preview` to show a test, ask what behavior it guards
+   - "Which scenario is NOT covered by the existing tests?" -- present a genuinely untested path
+   - "What metric/log would you check to verify X is working?" -- test understanding of observability
+
+   **PR mode question types -- mix all four categories:**
+
+   *Factual (what changed):*
    - "What was the purpose of this change?" -- use `preview` to show the diff snippet
    - "What did this code look like before the PR?" -- show the new code, ask about the old
    - "Which file was modified to achieve X?"
    - "What behavior changed as a result of this modification?" -- use `preview` to show before/after
-   - "Why was this particular approach chosen?" (based on PR description/comments)
-   - "What existing code does this change interact with?"
+
+   *Design (why this approach):*
+   - "Why was this particular approach chosen over alternatives?" -- present plausible alternative designs as wrong answers
+   - "What design pattern or principle does this change follow?" -- use `preview` to show the relevant code
+   - "What trade-off does this implementation make?" -- e.g., performance vs. readability, consistency vs. simplicity
+   - "How does this change fit into the existing architecture?" -- test understanding of where it sits in the codebase
+
+   *Critique (spot potential issues):*
+   - "What edge case is NOT handled by this change?" -- use `preview` to show the code, present real edge cases as options
+   - "What could go wrong with this implementation under X condition?" -- e.g., concurrency, null input, large data
+   - "Which of these is a valid concern about this change?" -- mix real concerns with non-issues
+   - "If you were reviewing this PR, what would you flag?" -- present code smell or risk as one option among distractors
+
+   *Test coverage:*
+   - "Which scenario is NOT covered by the tests in this PR?" -- requires reading test files; present a genuinely untested path
+   - "What assertion is missing from this test?" -- use `preview` to show the test, ask what it fails to verify
+   - "Which of these inputs would expose a bug not caught by the current tests?" -- present boundary values or edge cases
+   - "What type of test (unit/integration/e2e) would best cover X behavior introduced in this PR?"
 
 2. **Present the question** using `AskUserQuestion`:
    - Set `header` to `"Q1/5"` (question number out of total)
@@ -108,3 +160,5 @@ After the last question:
 - Prefer questions that test understanding of architecture, data flow, and business logic
 - Keep explanations concise -- this is a quiz, not a lecture
 - If the user selects "Other" and types something, treat it as their answer and evaluate it
+- In PR mode, distribute questions across all four categories (factual, design, critique, test coverage). For a 5-question quiz, aim for at least one from each category. Prioritize critique and test coverage over factual -- the user can read the diff themselves
+- In Full Repo / Custom Scope mode, distribute questions across categories. Prioritize business logic and design patterns -- these test real understanding. Avoid clustering multiple questions in the same category
