@@ -10,7 +10,10 @@ FILES=(
   "settings.json"
   "statusline-command.sh"
   "skills/tough-review"
+  "skills/prompt"
+  "skills/quiz"
   "hooks/claude-island-state.py"
+  "hooks/log-prompt.sh"
 )
 
 link_item() {

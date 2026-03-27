@@ -17,7 +17,6 @@
 - For Java code, Never import *; always import specific classes.
 - For Java code, prefer assertj for assertions in tests.
 - For Java code, use mvn instead of mvnw for test commands.
-- For Java code, use lombok @Builder for complex objects.
 - For Java code, do not use lombok @Constructor; prefer explicit constructors or @Builder.
 - For Java code, do not use var.
 - For Java code, never change method access modifiers for unit test purposes. Try to test through public methods.
@@ -25,10 +24,15 @@
 - For Java code, with PostgreSQL JDBC 42.7+, use `.query(Instant.class)` directly for TIMESTAMPTZ columns instead of `.query(Timestamp.class).map(Timestamp::toInstant)`.
 - For Java code, try to follow the suggestions from SonarLint for code quality and security improvements.
 - For Java code, prefer using Java records with @Builder
-- For Java code, prefer virtual threads for blocking operations when possible (e.g., database calls, HTTP calls)
+- For Java code, prefer virtual threads for blocking operations when possible (e.g., database calls, HTTP calls).
+- For Java code, always add unit tests and integration tests (springboot test or application test) for new features and bug fixes.
 - For Java code, always verify that unit tests and integration test (springboot test or application test) pass after making changes.
 - For Java code, always test through the public API of a class; avoid changing method access modifiers just for testing.
 - For Java code, test the db with existing sql in prod code instead of adding new test only sql when possible.
+- For Java code, populate test data using existing repositories or services instead of direct SQL when possible.
+- For Java code, prefer spring value injection in constructor.
+- For Java code, return Optional instead of null when a method may not return a value.
+- For Java code, avoid using java.sql.Date. Use rs.getObject("date", LocalDate.class) if possible.
 - Prefer typescript over javascript for frontend code.
 - Always run /simplify after making changes to ensure code is clean and follows conventions.
 - Do NOT use em dash in the output. Use concise sentences.
