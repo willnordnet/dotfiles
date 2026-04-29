@@ -1,7 +1,210 @@
 {
+  "autoDreamEnabled": false,
+  "enabledPlugins": {
+    "backend-observability@nordnet-claude-plugins": true,
+    "backstage-mcp@nordnet-claude-plugins": true,
+    "dataland@nordnet-claude-plugins": true,
+    "gcp-log-analyzer@nordnet-claude-plugins": true,
+    "http-starter-migration@nordnet-claude-plugins": true,
+    "istio-auth-policy@nordnet-claude-plugins": true,
+    "k8s-service-investigation@nordnet-claude-plugins": true,
+    "slack@claude-plugins-official": true,
+    "terraform@claude-plugins-official": true,
+    "terraform@nordnet-claude-plugins": true
+  },
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "repo": "anthropics/claude-plugins-official",
+        "source": "github"
+      }
+    }
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/log-prompt.sh",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": "AskUserQuestion"
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/wilgao/.config/agentic-workspaces/hooks/block-repos-edits.sh",
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write|NotebookEdit"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/log-prompt.sh",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/scripts/hook-handle-use.sh",
+            "timeout": 5,
+            "type": "command"
+          },
+          {
+            "command": "/Users/wilgao/.claude/hooks/peon-ping/scripts/hook-handle-rename.sh",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ]
+  },
+  "model": "claude-opus-4-6[1m]",
   "permissions": {
     "allow": [
       "Bash(npm create:*)",
@@ -24,278 +227,9 @@
     ],
     "defaultMode": "plan"
   },
-  "model": "claude-opus-4-6[1m]",
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py",
-            "timeout": 86400
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "AskUserQuestion",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/log-prompt.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "PostToolUseFailure": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "auto",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      },
-      {
-        "matcher": "manual",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/peon.sh",
-            "timeout": 10,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/log-prompt.sh",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/wilgao/.claude/hooks/peon-ping/scripts/hook-handle-use.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 ~/.claude/hooks/claude-island-state.py"
-          }
-        ]
-      }
-    ]
-  },
   "statusLine": {
-    "type": "command",
-    "command": "bash /Users/wilgao/.claude/statusline-command.sh"
+    "command": "bash /Users/wilgao/.claude/statusline-command.sh",
+    "type": "command"
   },
-  "enabledPlugins": {
-    "backstage-mcp@nordnet-claude-plugins": true,
-    "terraform@nordnet-claude-plugins": true,
-    "k8s-service-investigation@nordnet-claude-plugins": true,
-    "istio-auth-policy@nordnet-claude-plugins": true,
-    "slack@claude-plugins-official": true,
-    "dataland@nordnet-claude-plugins": true,
-    "terraform@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "claude-plugins-official": {
-      "source": {
-        "source": "github",
-        "repo": "anthropics/claude-plugins-official"
-      }
-    }
-  },
-  "autoDreamEnabled": false
+  "teammateMode": "auto"
 }

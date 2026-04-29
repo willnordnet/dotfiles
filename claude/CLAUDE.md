@@ -1,39 +1,38 @@
 ## Global Instructions
 
-- Do NOT hallucinate or fabricate information. If you don't know, say "I don't know".
-- Act as a concise, neutral software engineering assistant.
-- Prioritize repository conventions and existing code style; prefer idiomatic and well-tested solutions.
-- Produce minimal, focused changes: small diffs, clear commit messages, and unit tests when applicable.
-- Never introduce secrets, credentials, or external network calls. Don't guess sensitive values.
-- When uncertain or missing context, ask a single clarifying question instead of making assumptions.
-- Provide code edits using the repository's required replace/delete block format when modifying files.
-- Explain non-obvious decisions in one short sentence and include example usage or tests.
-- Avoid unnecessary comments, logging, or complex abstractions.
-- Always verify if a webapp can run after changes; ensure no runtime errors.
-- Use README.md as the knowledge source for project details.
-- Always update README.md with any new features or changes.
-- When investigating code, include internal lib from e.g.: `se.nordnet` if relevant, as it may contain shared utilities and conventions.
-- For Java code, always import classes and use their simple names; never inline fully qualified class names.
-- For Java code, Never import *; always import specific classes.
-- For Java code, prefer assertj for assertions in tests.
-- For Java code, use mvn instead of mvnw for test commands.
-- For Java code, do not use lombok @Constructor; prefer explicit constructors or @Builder.
-- For Java code, do not use var.
-- For Java code, never change method access modifiers for unit test purposes. Try to test through public methods.
-- For Java code, prefer jdbcClient to jdbcTemplate for database operations.
-- For Java code, with PostgreSQL JDBC 42.7+, use `.query(Instant.class)` directly for TIMESTAMPTZ columns instead of `.query(Timestamp.class).map(Timestamp::toInstant)`.
-- For Java code, try to follow the suggestions from SonarLint for code quality and security improvements.
-- For Java code, prefer using Java records with @Builder
-- For Java code, prefer virtual threads for blocking operations when possible (e.g., database calls, HTTP calls).
-- For Java code, always add unit tests and integration tests (springboot test or application test) for new features and bug fixes.
-- For Java code, always verify that unit tests and integration test (springboot test or application test) pass after making changes.
-- For Java code, always test through the public API of a class; avoid changing method access modifiers just for testing.
-- For Java code, test the db with existing sql in prod code instead of adding new test only sql when possible.
-- For Java code, populate test data using existing repositories or services instead of direct SQL when possible.
-- For Java code, prefer spring value injection in constructor.
-- For Java code, return Optional instead of null when a method may not return a value.
-- For Java code, avoid using java.sql.Date. Use rs.getObject("date", LocalDate.class) if possible.
-- Prefer typescript over javascript for frontend code.
-- Always run /simplify after making changes to ensure code is clean and follows conventions.
-- Do NOT use em dash in the output. Use concise sentences.
-- For Frontend monorepo, always run npx nx test <project-name> after making changes to verify tests pass.
+- When uncertain, ask one clarifying question instead of assuming.
+- Use README.md as the project knowledge source; update it with any new features or changes.
+- When investigating code, check internal libs (e.g. `se.nordnet`) for shared utilities.
+- Use TDD when applicable. Review and simplify after changes.
+- Avoid em dash in output.
+- Prefer smaller blast radius. When a change could cascade widely, propose the minimal scope first and let the user decide to expand.
+
+## Java
+
+**Style**: Import specific classes (no `*`, no fully-qualified names). No `var`. Follow SonarLint suggestions.
+
+**Types**: Prefer records with `@Builder`. No lombok `@Constructor` -- use explicit constructors. Return `Optional` instead of null. Use `orElseThrow()` not `get()`. Avoid `java.sql.Date` -- use `rs.getObject("date", LocalDate.class)`. Use text blocks for multi-line strings.
+
+**Database**: Prefer `jdbcClient` over `jdbcTemplate`. With PostgreSQL JDBC 42.7+, use `.query(Instant.class)` directly for TIMESTAMPTZ columns. Prefer virtual threads for blocking operations.
+
+**Spring**: Prefer constructor value injection.
+
+**Testing**: Use `mvn` (not `mvnw`). Use assertj for assertions. Always add unit + integration tests (SpringBoot/application test). Test through public API only -- never change access modifiers for tests. Use existing prod SQL and repos/services for test data (not test-only SQL or direct SQL). Use `OutputCaptureExtension` for log verification. Fix docker env for tests that need it; warn if not fixable. After adding new tests, review existing tests for overlap. Merge tests that cover subsets of the same scenario. Prefer fewer comprehensive tests over many narrow ones. Parameterize where possible.
+
+## Refactoring
+
+- When renaming: only rename what was explicitly requested. Don't cascade renames to unrelated code.
+- When suggesting names: provide 2-3 candidates with brief rationale. Don't apply without approval.
+- Prefer descriptive method names over generic ones (e.g., `groupByInstrumentAndSide` over `buildMap`).
+
+## Frontend
+
+- Prefer TypeScript over JavaScript.
+- In webapp-next and monorepo-admin, prefer Nordnet Tailwind UI components (https://ui.prod.nntech.io/ui-tailwind/?path=/docs/design-system-1-intro--docs).
+- Verify webapp runs after changes with no runtime errors.
+- For monorepo-admins: run `npx nx test <project-name>` after changes. Update mocked API endpoints when changing API client or backend API.
+
+## Workflow
+
+- After implementing a feature, offer to run `/simplify` on staged changes.
+- When reviewing, check for: duplicated tests, missing integration tests, unused imports, naming consistency.
