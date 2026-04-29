@@ -6,6 +6,8 @@
 - Use TDD when applicable. Review and simplify after changes.
 - Avoid em dash in output.
 - Prefer smaller blast radius. When a change could cascade widely, propose the minimal scope first and let the user decide to expand.
+- When the prompt says "come back with questions", "don't change code", or asks for a plan/analysis, respond with analysis only. Do not make code changes until explicitly asked.
+- Do not reformat, restructure, or clean up code outside the scope of the current task (e.g., reformatting imports, removing comments, changing constructors to builders). These changes create noise in code review.
 
 ## Java
 
@@ -17,7 +19,7 @@
 
 **Spring**: Prefer constructor value injection.
 
-**Testing**: Use `mvn` (not `mvnw`). Use assertj for assertions. Always add unit + integration tests (SpringBoot/application test). Test through public API only -- never change access modifiers for tests. Use existing prod SQL and repos/services for test data (not test-only SQL or direct SQL). Use `OutputCaptureExtension` for log verification. Fix docker env for tests that need it; warn if not fixable. After adding new tests, review existing tests for overlap. Merge tests that cover subsets of the same scenario. Prefer fewer comprehensive tests over many narrow ones. Parameterize where possible.
+**Testing**: Use `mvn` (not `mvnw`). Use assertj for assertions. Always add unit + integration tests (SpringBoot/application test). Test through public API only -- never change access modifiers for tests. When asked to tighten method visibility (e.g., make a method private), rework tests to exercise the behavior through public API rather than removing coverage. Use existing prod SQL and repos/services for test data (not test-only SQL or direct SQL). Use `OutputCaptureExtension` for log verification. Fix docker env for tests that need it; warn if not fixable. After adding new tests, review existing tests for overlap. Merge tests that cover subsets of the same scenario. Prefer fewer comprehensive tests over many narrow ones. Parameterize where possible.
 
 ## Refactoring
 
